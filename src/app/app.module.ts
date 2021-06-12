@@ -10,7 +10,11 @@ import { AuthCalbackModule } from './auth-calback/auth-calback.module';
 import { AuthGuard } from './shared';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { LanguageTranslationModule } from './shared/modules/language-translation/language-translation.module';
-import { UserService } from './shared/services/users.service';
+
+
+import {ButtonModule} from 'primeng/button';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ValidationMessageModule } from './shared/modules/validation-message/validation-message.module';
 
 
 @NgModule({
@@ -21,7 +25,12 @@ import { UserService } from './shared/services/users.service';
         HttpClientModule,
         LanguageTranslationModule,
         AppRoutingModule,
-        AuthCalbackModule
+        AuthCalbackModule,
+        ButtonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ValidationMessageModule
+       
     ],
     declarations: [AppComponent],
     providers: [AuthGuard  , {

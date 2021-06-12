@@ -1,6 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { Function } from './../../../shared/models';
+import { UserService } from './../../../shared/services/users.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from './../../../shared/services/auth.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -12,15 +15,21 @@ export class SidebarComponent implements OnInit {
     collapsed: boolean;
     showMenu: string;
     pushRightClass: string;
+    listFunction :Function[];
 
     @Output() collapsedEvent = new EventEmitter<boolean>();
 
-    constructor(private translate: TranslateService, public router: Router) {
+    constructor(private translate: TranslateService, public router: Router ,
+        private userService :UserService,
+        private authService :AuthService
+        
+        ) {
         this.router.events.subscribe((val) => {
             if (val instanceof NavigationEnd && window.innerWidth <= 992 && this.isToggled()) {
                 this.toggleSidebar();
             }
         });
+
     }
 
     ngOnInit() {
@@ -28,6 +37,14 @@ export class SidebarComponent implements OnInit {
         this.collapsed = false;
         this.showMenu = '';
         this.pushRightClass = 'push-right';
+        this.loadMenu();
+    }
+    loadMenu (){
+        let iduser =this.authService.getProfile();
+        console.log("iduser" ,iduser) ;
+        this.userService.getMenuByUserId(iduser.sub).subscribe(response => {
+            this.listFunction = response; console.log(this.listFunction)
+        })
     }
 
     eventCalled() {
@@ -66,7 +83,9 @@ export class SidebarComponent implements OnInit {
         this.translate.use(language);
     }
 
-    onLoggedout() {
-        localStorage.removeItem('isLoggedin');
+    async onLoggedout() {
+        //  localStorage.removeItem('isLoggedin');
+        await this.authService.signout();
+
     }
 }

@@ -29,7 +29,9 @@ export class AuthService extends BaseService {
   login() {
     return this.manager.signinRedirect();
   }
-
+  getProfile() :any {
+    return this.user != null ? this.user.profile : null
+  }
   async completeAuthentication() {
     this.user = await this.manager.signinRedirectCallback();
     this._authNavStatusSource.next(this.isAuthenticated());
