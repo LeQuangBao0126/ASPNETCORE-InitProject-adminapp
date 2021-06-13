@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit {
     }
     loadMenu (){
         let iduser =this.authService.getProfile();
-        console.log("iduser" ,iduser) ;
+        //console.log("iduser" ,iduser) ;
         this.userService.getMenuByUserId(iduser.sub).subscribe(response => {
             this.listFunction = response; console.log(this.listFunction)
         })

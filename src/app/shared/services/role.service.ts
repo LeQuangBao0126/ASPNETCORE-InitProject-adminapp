@@ -43,4 +43,10 @@ export class RoleService extends BaseService {
                 catchError(this.handleError)
             );
     }
+    getAll() {
+        return this.http.get<Role[]>(`${environment.apiUrl}/api/roles`, { headers: this._sharedHeaders })
+            .pipe(map((response: Role[]) => {
+                return response;
+            }), catchError(this.handleError));
+    }
 }
